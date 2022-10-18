@@ -266,3 +266,113 @@ intersect
 select *
 from emp
 where JOB in('CLERK','MANAGER');
+
+--------------------------------------오라클 함수
+
+--함수
+--문자함수 :upper,lower,substr,instr,replace,lpad,rpad,concat
+--숫자함수
+--날짜함수 
+
+--대문자 소문자 변경
+select 'Welcome',upper('Welcome')
+from dual;
+
+select lower(ename),upper(ename)
+from emp;
+
+select *
+from emp 
+where ename = 'FORD';
+
+select *
+from emp
+where lower(ename) = 'scott';
+
+--특정 문자열의 길이 
+select ename,length(ename)
+from emp;
+
+--글자당 인덱스 1번 부터 붙는다. 0x ('문자열',시작위치,추출개수)2번위치부터 3개 추출
+select 'Welcome to Oracle', substr('Welcome to Oracle',2,3)
+from dual;
+
+--추출개수 없으면 전부다 
+select 'Welcome to Oracle', substr('Welcome to Oracle',2,3),substr('Welcome to Oracle',10)
+from dual;
+
+--시작위치를 음수로 설정 (왼쪽에서 오른쪽으로 변경)
+select 'Welcome to Oracle', substr('Welcome to Oracle',-3),substr('Welcome to Oracle',-10)
+from dual;
+
+--dual은 가상 테이블
+--특정 문자의 위치값을 반환
+select instr('Welcome to Oracle','o')
+from dual;
+
+--o를 6이후부터 찾아라 (시작위치가 6)
+select instr('Welcome to Oracle','o',6)
+from dual;
+
+--시작은 3부터, 그뒤로부터 두번째 o의 인덱스 
+select instr('Welcome to Oracle','o',3,2)
+from dual;
+
+--replace함수 
+--to 를 of로 바꾼다
+select 'Welcome to Oracle',replace('Welcome to Oracle','to','of')
+from dual;
+
+--대체문자 삽입
+--lpad 왼쪽 : 열칸 기준 부족한 칸수 #로 채우기 
+--rpad 오른쪽 : 열칸 기준 부족한 칸수 *로 채우기
+--대체문자 넣지 않으면 공백
+select 'oracle',lpad('oracle',10,'#'),rpad('oracle',10,'*'),lpad('oracle',10)
+from dual;
+
+--주민번호 가리기 
+select rpad('990103-',14,'*')
+from dual;
+
+--데이터 합침 
+select concat(empno,ename), empno || '' || ename
+from emp;
+
+--=========== 숫자
+
+
+--round 반올림
+select 
+        round(1234.5678),
+        round(1234.5678,0), --소수점 표시X
+        round(1234.5678,1), --소수점 첫째 자리까지 표현
+        round(1234.5678,2),
+        round(1234.5678,-1) --음수는 정수부분을 반올림
+from dual;
+
+
+--trunc 값을 그냥 버려버림 (반올림x)
+select 
+        trunc(1234.5678),
+        trunc(1234.5678,0), --소수점 표시X
+        trunc(1234.5678,1), --소수점 첫째 자리뒤로 다 벼려라. 0으로 만들어라
+        trunc(1234.5678,2),
+        trunc(1234.5678,-1)
+from dual;
+
+--ceil floor
+select 
+        ceil(3.14), --자신보다 큰 가장 가까운 정수 4
+        foor(3.14),--자신보다 작은 가장 가까운 정수 3
+        ceil(-3.14),-- -3
+        ceil(-3.14) -- -4
+from dual;
+
+--나머지 구하기 (5를2로나눈 나머지, 10을 4로나눈 나머지)
+select mod(5,2),mod(10,4)
+from dual;
+
+--사번 홀수인 사원수
+select *
+from emp
+where mod(empno,2) = 1;
